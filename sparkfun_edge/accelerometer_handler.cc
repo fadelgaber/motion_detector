@@ -29,8 +29,17 @@ limitations under the License.
 #include "am_util.h"        // NOLINT
 #include "lis2dh12_platform_apollo3.h"
 
-lis2dh12_platform_apollo3_if_t dev_if;  // accelerometer device interface
-lis2dh12_ctx_t dev_ctx;                 // accelerometer device control
+lis2dh12_platform_apollo3_if_t dev_if = {
+    .iomHandle  = NULL,                             // Needs to be initialized later
+    .addCS      = AM_BSP_ACCELEROMETER_I2C_ADDRESS, // Gets the accelerometer I2C address for the board
+    .useSPI     = false,                            // Using I2C in this example
+};
+
+lis2dh12_ctx_t dev_ctx = {
+    .write_reg  = lis2dh12_write_platform_apollo3,  // write bytes function
+    .read_reg   = lis2dh12_read_platform_apollo3,   // read bytes function
+    .handle     = (void*)&dev_if,                   // Apollo3-specific interface information
+};
 
 // A union representing either int16_t[3] or uint8_t[6],
 // storing the most recent data

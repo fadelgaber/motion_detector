@@ -56,9 +56,9 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
         "RING:\n\r          *\n\r       *     *\n\r     *         *\n\r "
         "   *           *\n\r     *         *\n\r       *     *\n\r      "
         "    *\n\r");
-    am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_RED);
-    am_devices_led_on(am_bsp_psLEDs, AM_BSP_LED_BLUE);
     am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_GREEN);
+    am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_BLUE);
+    am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_RED);
   } else if (kind == 2) {
     TF_LITE_REPORT_ERROR(
         error_reporter,
@@ -66,7 +66,10 @@ void HandleOutput(tflite::ErrorReporter* error_reporter, int kind) {
         "*\n\r   *\n\r  *\n\r");
     am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_RED);
     am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_BLUE);
-    am_devices_led_on(am_bsp_psLEDs, AM_BSP_LED_GREEN);
+    am_devices_led_on(am_bsp_psLEDs, AM_BSP_LED_BLUE);
+  }
+  else{
+    am_devices_led_off(am_bsp_psLEDs, AM_BSP_LED_BLUE);
   }
 }
 

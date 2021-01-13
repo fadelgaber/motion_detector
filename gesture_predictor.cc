@@ -17,12 +17,17 @@ limitations under the License.
 
 #include "tensorflow/lite/micro/examples/motion_detector/constants.h"
 
+#include "am_util.h"        // NOLINT
+
 namespace {
 // State for the averaging algorithm we're using.
 float prediction_history[kGestureCount][kPredictionHistoryLength] = {};
 int prediction_history_index = 0;
 int prediction_suppression_count = 0;
 }  // namespace
+
+int detectedIndex = 0;
+float detectedScore = 0.0f;
 
 // Return the result of the last prediction
 // 0: wing("W"), 1: ring("O"), 2: slope("angle"), 3: unknown
@@ -57,16 +62,27 @@ int PredictGesture(float* output) {
   if (prediction_suppression_count > 0) {
     --prediction_suppression_count;
   }
+
+  if(prediction_suppression_count == 15){
+      detectedIndex = 0;
+      detectedScore = 0.0f;
+  }
+
   // If we're predicting no gesture, or the average score is too low, or there's
   // been a gesture recognised too recently, return no gesture.
   if ((max_predict_index == kNoGesture) ||
       (max_predict_score < kDetectionThreshold) ||
       (prediction_suppression_count > 0)) {
+
     return kNoGesture;
   } else {
     // Reset the suppression counter so we don't come up with another prediction
     // too soon.
     prediction_suppression_count = kPredictionSuppressionDuration;
+
+    detectedIndex = max_predict_index;
+    detectedScore = max_predict_score;
+
     return max_predict_index;
   }
 }

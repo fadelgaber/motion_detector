@@ -100,7 +100,8 @@ tensorflow/lite/micro/examples/motion_detector/main_functions.cc \
 tensorflow/lite/micro/examples/motion_detector/motion_detector_model_data.cc \
 tensorflow/lite/micro/examples/motion_detector/accelerometer_handler.cc \
 tensorflow/lite/micro/examples/motion_detector/gesture_predictor.cc \
-tensorflow/lite/micro/examples/motion_detector/output_handler.cc
+tensorflow/lite/micro/examples/motion_detector/output_handler.cc \
+tensorflow/lite/micro/examples/motion_detector/led_toggle.cc
 
 motion_detector_HDRS := \
 tensorflow/lite/micro/examples/motion_detector/main_functions.h \
